@@ -1,0 +1,57 @@
+@charset "utf-8";
+.hr0{
+	height:1px;
+	border:none;
+	border-top:1px dashed #AAAAAA;
+}
+#menu-content {
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-bottom: 20px;
+	margin-left: 30px;
+	text-align: center;
+	/*font-family: "微软雅黑", sans-serif;*/
+	background-color: #FFFFFF;
+	font-size: 10px;
+}
+#title-container {
+	padding-right: 10px;
+	padding-left: 10px;
+	font-size: 28px;
+	padding-top: 1px;
+}
+#banner-container {
+	margin: 5px;
+	text-align: left;
+}
+.sbanner {
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-top: 5px;
+	border-width: 0px;
+}
+.menu-button {
+	font-size: 14px;
+	margin: 5px;
+	padding: 5px;
+	/*font-family: "微软雅黑", sans-serif;*/
+	-webkit-transition: all 1s ease 0s;
+	-moz-transition: all 1s ease 0s;
+	-ms-transition: all 1s ease 0s;
+	-o-transition: all 1s ease 0s;
+	transition: all 1s ease 0s;
+	cursor: pointer;
+	color: #444444;
+}
+#logo-container {
+	height: 200px;
+	width: 200px;
+	border: 1px solid rgba(204,204,204,1);
+	margin: 10px;
+}
+#foot-container {
+	padding: 10px;
+}
+.menu-button:hover {
+	background-color: #EEEEEE;
+}

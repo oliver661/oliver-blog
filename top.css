@@ -1,0 +1,17 @@
+@charset "utf-8";
+.hr0{
+	height:1px;
+	border:none;
+	border-top:1px dashed #AAAAAA;
+}
+#warpper {
+	background-color: #FFFFFF;
+	padding: 10px;
+	margin-top: 20px;
+	margin-right: 30px;
+	margin-bottom: 20px;
+	margin-left: 5px;
+	font-size: 14px;
+	width: 80%;
+	min-width: 200px;
+}

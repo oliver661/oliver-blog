@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ConvertJSON for Google Reader</title>
+<link href="normal.css" rel="stylesheet" type="text/css" /></head>
+
+<body>
+<p>ConvertJSON for Google Reader<br />
+  ————————————————<br />
+  Google Reader将于2013年7月1日关闭，用户数据可以通过GR设置内的功能导出JSON数据包，这个工具就是用来转换JSON数据到网页的。<br />
+  用法很简单，将JSON数据和本程序都解压出来，放到不带空格的英文路径下，将想要转换的文件直接拖到可执行文件上即可转换。<br />
+  列表页面<br />
+  <a href="pages/002/convertjsonv04.png"><img title="convertjsonv04" src="pages/002/convertjsonv04.png" alt="" height="387" width="486" /></a><br />
+  条目页面<br />
+  <a href="pages/002/convertjsonv04page.png"><img title="convertjsonv04page" src="pages/002/convertjsonv04page.png" alt="" height="339" width="426" /></a></p>
+<p>2013-05-30 22:23 v0.5.1<br />
+  <a href="http://vdisk.weibo.com/s/DFFrI/1369967503">&lt;–download link–&gt; </a><br />
+  -支持多条评论导出，可以在条目页面最下方查看评论<br />
+  -修正文章转换因为连续多空格导致的导出失败<br />
+  -修正部分转换逻辑<br />
+  -修改样式细节若干<br />
+  -已知问题: 暂时跳过注释&quot;annotations&quot;标签内容<br />
+  2013-04-05 18:02 v0.5<br />
+  <a href="http://vdisk.weibo.com/s/wsOOG/1365201314">&lt;–download link–&gt; </a><br />
+  -支持条目页面标签信息显示，目前可以正常显示标签，但是因为没有做社交列表导出，故目前只支持显示&quot;[自己]&quot;和&quot;[好友]&quot;这两种<br />
+  -完善所有页面的div布局<br />
+  -增加页面底部的信息<br />
+  -修正转换逻辑<br />
+  -取消清屏显示，cls在命令行的速度实在是太慢了，于是取消掉，虽然有点不太好看咳<br />
+  -修改样式细节若干<br />
+  -修复因字符缺损导致程序锁死的bug<br />
+  -修正链接库版本不同导致mkdir语句的bug<br />
+  <br />
+  2013-03-25 19:34 v0.4<br />
+  <a href="http://vdisk.weibo.com/s/v46X2/1364255549">&lt;–download link–&gt; </a><br />
+  -用div替换所有页面的ul/li布局<br />
+  -支持列表页面预览条目内容<br />
+  -移除列表页面条目ID及其链接<br />
+  -修改列表页面条目标题为链接<br />
+  -更新列表页面条目显示方式<br />
+  -支持条目页面供稿源相关信息显示<br />
+  -修改条目页面返回列表页面链接的位置<br />
+  -已知问题：预览内容会有长字符截断不全导致乱码<br />
+  <br />
+  2013-03-18 23:14 VS2012ver.0.3r1<br />
+  <a href="http://vdisk.weibo.com/s/udvM5/1363663715">&lt;–download link–&gt; </a><br />
+  -尝试在Visual Studio 2012 update 1 开发环境下重构<br />
+  -构建平台C:\Windows\System32\msvcrt.dll版本号为7.0.7601.17744<br />
+  -此版本没有MFC静态库</p>
+<p>2013-03-17 23:48 v0.3.1 + VS2012ver.0.3<br />
+  <a href="http://vdisk.weibo.com/s/u5cpa/1363579328">&lt;–download link–&gt; </a><br />
+  -更新了部分算法，现在处理速度快了一点<br />
+  -修正输出内容之后移动文件夹导致链接失效的bug<br />
+  -特别说明：有部分童鞋在Windows XP   SP3系统下运行出现内存不能read的错误，故用VS2012重新编译一次，如果出现同样的问题，还请尝试使用ConvertJSON-  VS2012.exe文件。此文件在Windows 7 64bit Ultimate+Visual Studio 2012   Express环境下编译通过，但因为编译器问题，暂时取消显示发布/更新时间的功能。converjson.exe还在原始环境下编译，不受此影响。<br />
+  -已知问题：有童鞋报告即便是VS2012的也不成= =，故之后的XP测试兼容版都会单独发布，不再整合到新版本里面。</p>
+<p>2013-03-16 19:11 v0.3<br />
+  <a href="http://vdisk.weibo.com/s/tXNVj/1363476315">&lt;–download link–&gt; </a><br />
+  -更新算法，支持显示文章发布和更新时间<br />
+  -添加条目页面返回列表页面的链接<br />
+  -修改列表页面显示方式<br />
+  -支持列表和条目页面的样式自定义<br />
+  -添加页面样式表，列表页面为css/list.css，条目页面为css/page.css<br />
+  -修正一小部分逻辑错误<br />
+  -修正因标题内含有&quot;导致标题显示不完整的bug<br />
+  -修正因文件缺损导致程序锁死的bug</p>
+<p>2013-03-15 12:22 v0.2<br />
+  <a href="http://vdisk.weibo.com/s/tP737/1363365401">&lt;–download link–&gt; </a><br />
+  -更新算法，可以转换所有JSON文件中的title/content/alternative-href条目<br />
+  -更新命令行显示内容<br />
+  -增加查看转换进度功能<br />
+  -添加条目页面的标题以及原文地址链接<br />
+  -更新列表网页显示，调整版权说明位置<br />
+  -修正无content条目导致程序锁死的bug<br />
+  -有comments条目暂时不支持评论导出<br />
+  -已知问题：follower/following两个文件转换结果待修正<br />
+  -已知问题：对于文件缺损导致程序锁死待修正</p>
+<p>2013-03-14 21:36 v0.1 beta<br />
+  <a href="http://vdisk.weibo.com/s/tJ9za/1363312510">&lt;–download link–&gt; </a><br />
+  -设计完成liked.json的分析<br />
+  -输出集合列表为liked-list.html<br />
+  -输出网页保存在liked-files文件夹内<br />
+  -Win7+Netbeans+mingw编译<br />
+  -纯C写的，考虑功能完善之后折腾到其他平台上<br />
+  -只有命令行</p>
+<p>这是写了一天程序晕晕乎乎的版本控制结尾<br />
+  ————————————————<br />
+  有建议或者问题请email: oliver661#gmail<br />
+  如果转换结果有问题，也请直接联系我，谢谢！</p>
+<p>把软件献给我女朋友KUMA酱。虽然她不用GR吧XD。</p>
+<p>最后对于Google关闭GR的行为表示严重的鄙视。</p>
+</body>
+</html>

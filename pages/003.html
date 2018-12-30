@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>高级弹幕×宅舞新尝试！</title>
+<link href="normal.css" rel="stylesheet" type="text/css" /></head>
+
+<body>
+<p>花了大概三天的时间把 @黑白KUMA酱 @腰折的小饼 的宅舞新作http://www.bilibili.tv/video/av490339/ 加入了高级弹幕特效，从中文翻译歌词到视频特效，让宅舞更添色彩！ 宽屏播放推奖！！！<br />
+  全部高级弹幕代码如下！中文歌词见<a href="http://blog.oliver661.vacau.com/?p=353">这里</a>。<br />
+  /*☆◎ 魔 法 阵 爆 炸 ◎☆*/<br />
+  function createHollowCircle(g,x,y,r,mr){<br />
+  g.graphics.drawCircle(x,y,r);<br />
+  g.graphics.drawCircle(x,y,mr);<br />
+  }<br />
+  function drawStar(g, x, y,  innerRadius, outerRadius, points, angle ){<br />
+  var drawStar_count=Math.abs(points);<br />
+  if (drawStar_count&gt;=2){<br />
+  var step=(Math.PI*2)/points;<br />
+  var halfStep=step/2;<br />
+  var start=(angle/180)*Math.PI;<br />
+  g.graphics.moveTo(x+(Math.cos(start)*outerRadius),y-(Math.sin(start)*outerRadius));<br />
+  for (var i=1;i&lt;=drawStar_count*2;i++){<br />
+  var radius = (i%2==0 ? outerRadius : innerRadius);<br />
+  g.graphics.lineTo(x+(Math.cos(start+(halfStep*i))*radius),y-(Math.sin(start+(halfStep*i))*radius));<br />
+  }<br />
+  }<br />
+  }<br />
+  var i=0;<br />
+  for(i=1;i&lt;40;i++){ 	clear; 	var randangle=(Math.random()*2)*Math.PI;   	var randlongway=400+Math.random()*800; 	var bb = $.createShape({ 		  lifeTime: 0.7+Math.random()*1, 		motionGroup:[{ 			x:{ 				  fromValue:Player.videoWidth/2,     			  toValue:Player.videoWidth/2+Math.cos(randangle)*randlongway 			},     		  y:{     			fromValue:Player.videoHeight/2,     			  toValue:Player.videoHeight/2+Math.sin(randangle)*randlongway     		},       		alpha:{     			fromValue:Math.random()*0.7,     			  toValue:Math.random()*0.2,     			easing:&quot;Back&quot;     		}     	}] 	}); 	  bb.graphics.beginFill(Math.random()&gt;0.5?&quot;0xFFF000&quot;:&quot;0xFFFFF1&quot;);<br />
+  /*bb.graphics.drawCircle(0,0,5+Math.random()*5);  */<br />
+  createHollowCircle(bb,0,0,5+Math.random()*5,Math.random()*5);<br />
+  bb.graphics.endFill();<br />
+  }</p>
+<p>var r=0;<br />
+  var turn=1;<br />
+  interval(function(){<br />
+  turn+=1;<br />
+  /*r=turn*turn/10*20;*/<br />
+  r=-0.5*turn*turn+20*turn;<br />
+  }, 50, 20);</p>
+<p>interval(function() {<br />
+  clear;<br />
+  var clr = $.createShape({<br />
+  x : Player.videoWidth/2,<br />
+  y : Player.videoHeight/2,<br />
+  lifeTime : 0.05,<br />
+  alpha: 0.7*(25-turn)/25<br />
+  });<br />
+  clr.graphics.beginFill(Math.random()&gt;0.3?&quot;0xFF6666&quot;:&quot;0xFEFEFE&quot;);<br />
+  createHollowCircle(clr,0,0,r*2+40,r*2+20);<br />
+  clr.graphics.endFill();<br />
+  }, 50, 20);</p>
+<p>interval(function() {<br />
+  clear;<br />
+  var str = $.createShape({<br />
+  x : Player.videoWidth/2,<br />
+  y : Player.videoHeight/2,<br />
+  lifeTime : 0.05,<br />
+  alpha: 0.7*(25-turn)/25<br />
+  });<br />
+  str.graphics.beginFill(Math.random()&gt;0.5?&quot;0xFFF000&quot;:&quot;0xFFFFF1&quot;);<br />
+  drawStar(str,0,0,r+20,(r+20)*2,5,r*0.5);<br />
+  drawStar(str,0,0,r,r*2,5,r*0.5);<br />
+  str.graphics.endFill();<br />
+  }, 50, 20);</p>
+<p>/* 介 绍 */<br />
+  function createTriangle(g,width,height){<br />
+  /*g.graphics.moveTo(0,0);<br />
+  g.graphics.lineTo(width/2,0);<br />
+  g.graphics.lineTo(0,height);<br />
+  g.graphics.lineTo(-width/2,0);<br />
+  g.graphics.lineTo(0,0);*/<br />
+  g.graphics.moveTo(width/2,0);<br />
+  g.graphics.lineTo(0,height);<br />
+  g.graphics.lineTo(-width/2,0);<br />
+  }</p>
+<p>var triang_bing = $.createShape({<br />
+  x: Player.videoWidth*0.32,<br />
+  y: Player.videoHeight*0.20,<br />
+  lifeTime: 4,<br />
+  motionGroup:[{<br />
+  rotationY:{<br />
+  fromValue:0,toValue:1800<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.9,toValue:0.3,startDelay:3000,lifeTime:1<br />
+  }<br />
+  }]<br />
+  });<br />
+  triang_bing.graphics.beginFill(&quot;0xC8CFB3&quot;);<br />
+  createTriangle(triang_bing,10,20);<br />
+  triang_bing.graphics.endFill();<br />
+  triang_bing.graphics.lineStyle(0.5, &quot;0x8F604F&quot;, 0.9, true, &quot;normal&quot;,&quot;round&quot;, &quot;miter&quot;, 10);<br />
+  createTriangle(triang_bing,10,20);</p>
+<p>var text_bing = $.createComment(&quot;小饼&quot;,{<br />
+  x: Player.videoWidth*0.28,<br />
+  y: Player.videoHeight*0.12,<br />
+  lifeTime: 4,<br />
+  motionGroup:[{<br />
+  alpha:{<br />
+  fromValue:0.9,toValue:0.3,startDelay:3000,lifeTime:1<br />
+  }<br />
+  }]<br />
+  });<br />
+  text_bing.fontsize=18;<br />
+  text_bing.border=false;</p>
+<p>var triang_kuma = $.createShape({<br />
+  x: Player.videoWidth*0.69,<br />
+  y: Player.videoHeight*0.20,<br />
+  lifeTime: 4,<br />
+  motionGroup:[{<br />
+  rotationY:{<br />
+  fromValue:0,toValue:1800<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.9,toValue:0.3,startDelay:3000,lifeTime:1<br />
+  }<br />
+  }]<br />
+  });<br />
+  triang_kuma.graphics.beginFill(&quot;0xB77B65&quot;);<br />
+  createTriangle(triang_kuma,10,20);<br />
+  triang_kuma.graphics.endFill();<br />
+  triang_kuma.graphics.lineStyle(0.5, &quot;0x231C24&quot;, 0.9, true, &quot;normal&quot;,&quot;round&quot;, &quot;miter&quot;, 10);<br />
+  createTriangle(triang_kuma,10,20);</p>
+<p>var text_kuma = $.createComment(&quot;KUMA酱&quot;,{<br />
+  x: Player.videoWidth*0.63,<br />
+  y: Player.videoHeight*0.12,<br />
+  lifeTime: 4,<br />
+  motionGroup:[{<br />
+  alpha:{<br />
+  fromValue:0.9,toValue:0.3,startDelay:3000,lifeTime:1<br />
+  }<br />
+  }]<br />
+  });<br />
+  text_kuma.fontsize=18;<br />
+  text_kuma.border=false;</p>
+<p>/* 圆 雪 片 */<br />
+  function creatLeafParticle(){<br />
+  var lfprt = $.createShape({<br />
+  x:Player.videoWidth*Math.random(),<br />
+  y:0,<br />
+  lifeTime: 3+Math.random()*5,<br />
+  motionGroup:[{<br />
+  y:{<br />
+  fromValue:Player.videoHeight*Math.random()*0.2,<br />
+  toValue:Player.videoHeight*(0.3+Math.random()*0.7),<br />
+  easing:&quot;Circular&quot;<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.7*Math.random(),<br />
+  toValue:0,<br />
+  startDelay:3+Math.random()*2<br />
+  },<br />
+  rotationX:{<br />
+  fromValue:0,<br />
+  toValue:180+Math.random()*540<br />
+  },<br />
+  rotationY:{<br />
+  fromValue:0,<br />
+  toValue:180+Math.random()*540<br />
+  },<br />
+  rotationZ:{<br />
+  fromValue:0,<br />
+  toValue:180+Math.random()*540<br />
+  }<br />
+  }]<br />
+  });<br />
+  lfprt.graphics.beginGradientFill(&quot;linear&quot;, [0xFFFFFF, 0xFF6666],[1,0.3],[0,255] , $.createGradientBox(10,10,Math.PI/2,0,0));<br />
+  lfprt.graphics.drawCircle(0,0,0.5+Math.random()*3);<br />
+  lfprt.graphics.endFill();<br />
+  }</p>
+<p>interval(function() {<br />
+  clear;<br />
+  for(i=1;i&lt;40;i++){ 		creatLeafParticle(); 	} }, 500, 25); /* 间 奏 进 行 中   */ function drawNote1(drwNt1,w,h){ 	var sclw=w/300; 	var sclh=h/350; 	  drwNt1.graphics.moveTo	(-60*sclw,	-151*sclh); 	drwNt1.graphics.lineTo	  (-60*sclw,	97*sclh); 	drwNt1.graphics.curveTo	(-102*sclw,	88*sclh,	  -139*sclw,	136*sclh); 	drwNt1.graphics.curveTo	(-163*sclw,	182*sclh,	  -130*sclw,	196*sclh); 	drwNt1.graphics.curveTo	(-98*sclw,	200*sclh,	  -72*sclw,	177*sclh); 	drwNt1.graphics.curveTo	(-41*sclw,	153*sclh,	  -48*sclw,	100*sclh); 	drwNt1.graphics.lineTo	(-48*sclw,	53*sclh); 	  drwNt1.graphics.lineTo	(-48*sclw,	-122*sclh); 	drwNt1.graphics.lineTo	  (129*sclw,	-122*sclh); 	drwNt1.graphics.lineTo	(129*sclw,	97*sclh); 	  drwNt1.graphics.curveTo	(85*sclw,	89*sclh,	49*sclw,	136*sclh); 	  drwNt1.graphics.curveTo	(25*sclw,	181*sclh,	58*sclw,	196*sclh); 	  drwNt1.graphics.curveTo	(90*sclw,	200*sclh,	116*sclw,	177*sclh); 	  drwNt1.graphics.curveTo	(146*sclw,	153*sclh,	141*sclw,	100*sclh); 	  drwNt1.graphics.lineTo	(140*sclw,	53*sclh); 	drwNt1.graphics.lineTo	  (140*sclw,	-151*sclh); 	drwNt1.graphics.lineTo	(-60*sclw,	-151*sclh); }   function drawNote2(drwNt2,w,h){ 	var sclw=w/200; 	var sclh=h/350; 	  drwNt2.graphics.moveTo	(sclw*-0,	sclh*-150); 	drwNt2.graphics.lineTo	  (sclw*-0,	sclh*100); 	drwNt2.graphics.curveTo	(sclw*-45,	sclh*90,	  sclw*-83,	sclh*140); 	drwNt2.graphics.curveTo	(sclw*-108,	sclh*188,	  sclw*-74,	sclh*203); 	drwNt2.graphics.curveTo	(sclw*-40,	sclh*207,	  sclw*-13,	sclh*183); 	drwNt2.graphics.curveTo	(sclw*19,	sclh*158,	  sclw*10,	sclh*102); 	drwNt2.graphics.lineTo	(sclw*10,	sclh*100); 	  drwNt2.graphics.lineTo	(sclw*10,	sclh*-90); 	drwNt2.graphics.curveTo	  (sclw*102,	sclh*19,	sclw*64,	sclh*95); 	drwNt2.graphics.curveTo	  (sclw*125,	sclh*3,		sclw*53,	sclh*-81); 	drwNt2.graphics.curveTo	  (sclw*20,	sclh*-116,	sclw*10,	sclh*-150); 	drwNt2.graphics.lineTo	  (sclw*-0,	sclh*-150); } function creatNoteflow(){ 	var   sx=Math.random()&gt;0.5?10*Math.random():Player.videoWidth-10*Math.random();<br />
+  var noteflow= $.createShape({<br />
+  y:sx&gt;100?10*Math.random()+20:Player.videoHeight-20*Math.random(),<br />
+  lifeTime:1+1.5*Math.random(),<br />
+  motionGroup:[{<br />
+  x:{<br />
+  fromValue:sx,<br />
+  toValue:sx&gt;100?0:Player.videoWidth<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.7+0.3*Math.random(),<br />
+  toValue:Math.random()*0.3,<br />
+  startDelay:1<br />
+  },<br />
+  rotationY:{<br />
+  fromValue:0,<br />
+  toValue:180+Math.random()*540,<br />
+  repeat:1+Math.random()*3,<br />
+  lifeTime:0.7<br />
+  }<br />
+  }]<br />
+  });<br />
+  noteflow.graphics.beginFill(0xFFFFFF*Math.random());<br />
+  Math.random()&gt;0.5?drawNote1(noteflow,20+15*Math.random(),25+15*Math.random()):drawNote2(noteflow,20+5*Math.random(),25+15*Math.random());<br />
+  noteflow.graphics.endFill();<br />
+  }<br />
+  interval(function() {<br />
+  clear;<br />
+  for(i=1;i&lt;6;i++){<br />
+  creatNoteflow();<br />
+  }<br />
+  }, 160, 110);</p>
+<p>var bgmwd=$.createComment(&quot;间奏进行中...&quot;,{<br />
+  x:Player.videoWidth-160,<br />
+  y:Player.videoHeight-40,<br />
+  fontsize:23,<br />
+  lifeTime:20,<br />
+  motion:{<br />
+  alpha:{<br />
+  fromValue:0.9,<br />
+  toValue:0.3,<br />
+  repeat:30,<br />
+  lifeTime:0.652<br />
+  }<br />
+  }<br />
+  });<br />
+  bgmwd.font=&quot;楷体&quot;;<br />
+  bgmwd.bold=true;</p>
+<p>var sndnote1 = $.createShape({<br />
+  x:Player.videoWidth-150,<br />
+  y:Player.videoHeight-40,<br />
+  lifeTime: 22,<br />
+  alpha:0.3,<br />
+  motionGroup:[{<br />
+  x:{<br />
+  fromValue:Player.videoWidth-150,<br />
+  toValue:Player.videoWidth-20<br />
+  },<br />
+  rotationZ:{<br />
+  fromValue:0,<br />
+  toValue:360,<br />
+  lifeTime:1.4,<br />
+  repeat:15<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.3,<br />
+  toValue:0,<br />
+  stratDelay:21<br />
+  }<br />
+  }]<br />
+  });<br />
+  sndnote1.graphics.beginFill(&quot;0xFFFFFF&quot;);<br />
+  drawNote1(sndnote1,60,70);<br />
+  sndnote1.graphics.endFill();</p>
+<p>var sndnote2 = $.createShape({<br />
+  x:Player.videoWidth-125,<br />
+  y:Player.videoHeight-55,<br />
+  lifeTime: 22,<br />
+  alpha:0.5,<br />
+  motionGroup:[{<br />
+  x:{<br />
+  fromValue:Player.videoWidth-150,<br />
+  toValue:Player.videoWidth-10,<br />
+  easing:&quot;Exponential&quot;<br />
+  },<br />
+  rotationZ:{<br />
+  fromValue:0,<br />
+  toValue:720,<br />
+  lifeTime:1.4,<br />
+  repeat:15<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.2,<br />
+  toValue:0,<br />
+  stratDelay:21<br />
+  }<br />
+  }]<br />
+  });<br />
+  sndnote2.graphics.beginFill(&quot;0xFFFFFF&quot;);<br />
+  drawNote2(sndnote2,35,60);<br />
+  sndnote2.graphics.endFill();</p>
+<p>var sndnote3 = $.createShape({<br />
+  x:Player.videoWidth-175,<br />
+  y:Player.videoHeight-30,<br />
+  lifeTime: 22,<br />
+  alpha:0.4,<br />
+  motionGroup:[{<br />
+  x:{<br />
+  fromValue:Player.videoWidth-150,<br />
+  toValue:Player.videoWidth-35,<br />
+  easing:&quot;Quadratic&quot;<br />
+  },<br />
+  rotationZ:{<br />
+  fromValue:0,<br />
+  toValue:1080,<br />
+  lifeTime:1.4,<br />
+  repeat:15<br />
+  },<br />
+  alpha:{<br />
+  fromValue:0.4,<br />
+  toValue:0,<br />
+  stratDelay:21<br />
+  }<br />
+  }]<br />
+  });<br />
+  sndnote3.graphics.beginFill(&quot;0xFFFFFF&quot;);<br />
+  drawNote2(sndnote3,20,35);<br />
+  sndnote3.graphics.endFill();</p>
+</body>
+</html>

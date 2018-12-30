@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<blog>
+	<filename>002</filename>
+	<title>ConvertJSON for Google Reader</title>
+	<preview>ConvertJSON for Google Reader ———————————————— Google Reader将于2013年7月1日关闭，用户数据可以通过GR设置内的功能导出JSON数据包，这个工具就是用来转换JSON数据到网页的。 用法很简单，将JSON...</preview>
+	<category>日常</category>
+	<date>2013-03-15</date>
+	<time>03:06:30</time>
+	<icon>none</icon>
+</blog>
