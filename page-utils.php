@@ -37,38 +37,28 @@ function getContentPage($page){
 }
 
 function getHeader($page){
+
+	$icon="imgs/".$page->category.".jpg";
+
 	echo "
 	<div id=\"header\">
     	<div id=\"icon-container\">
 			<div><img id=\"icon\" src=\"imgs/$icon.jpg\" /></div>
         </div>
         <div id=\"title-container\">
-			<div id=\"title\">$title</div>
+			<div id=\"title\">{$page->title}</div>
   			<div id=\"header-info\" class=\"info\">
-				$page_category $page_time
-                <a href=\"./page.php?p=$curr_pn\" target=\"_blank\" > [本文地址] </a>
+				{$page->category} {$page->mtime}
+                <a href=\"./page.php?p={$page->name}\" target=\"_blank\" > [本文地址] </a>
                 <a href=\"./directory.php\" target=\"_self\" > [回到目录] </a>
             </div>
-        </div>
-        <div id=\"header-line\">
-        	<!--
-            <div id=\"button-prev\" class=\"header-button\"
-            	onclick=\"window.open('pages/<?php //echo $prev_pn; ?>.html','mainFrame')\">
-            	&lt;&lt; 上一篇
-        	</div>
-        	<div class=\"header-button\"
-            	onclick=\"window.open('directory.php','mainFrame')\">
-            	—— 回目录 ——
-        	</div>
-        	<div id=\"button-next\" class=\"header-button\"
-            	onclick=\"window.open('pages/<?php //echo $next_pn; ?>.html','mainFrame')\">
-            	下一篇 &gt;&gt;
-        	</div>-->
         </div>
     </div>";
 }
 
 function getFooter(){
+	$info=stat(__FILE__);
+	$date=date('Y-m-d H:i:s (e/O)', $info['mtime']);
 	echo "
     <div id="footer">
     	<!--
@@ -86,7 +76,7 @@ function getFooter(){
         </div>
         -->
         <div id="footer-info" class="info">
-        Page Function Last Update: 2013-11-17 00:33
+        Page Function Last Update: $date
         </div>
     </div>";
 }

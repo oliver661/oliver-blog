@@ -48,6 +48,8 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 				$cateList[]=array('name'=>$dirList[$i], 'map'=>$map);
 				$pn+=count($map);
 			}
+			// Take last dir into first(most big)
+			$dirList=array_reverse($dirList);
 			// Store list into file
 			$fp=fopen($list, 'w');
 			foreach($cateList as $category){
@@ -72,30 +74,21 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 
 function findPageData($pid, $list="page_list.csv"){
 
-	if (($handle = fopen("test.csv", "r")) !== FALSE) {
-	    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-	        $num = count($data);
-	        echo "<p> $num fields in line $row: <br /></p>\n";
-	        $row++;
-	        for ($c=0; $c < $num; $c++) {
-	            echo $data[$c] . "<br />\n";
-	        }
-	    }
-	    fclose($handle);
-	}
-
 	if(($h=fopen($list, 'r'))!==false){
 		$cate='';
+		$nextData=array();
 		while(($data=fgetcsv($h))!==false){
 			if(count($data)=1){
 				$cate=$data[0];
-			}elseif(is_numeric($pid)&&($pid==$data[0])){
+				continue;	// not record into last data
+			}elseif(is_numeric($pid)&&($pid>=$data[0])){
 				fclose($h)
-				return array('cate'=>$cate)+toPageData($data);
+				return array('cate'=>$cate, 'next'=>toPageData($nextData))+toPageData($data);
 			}elseif($pid==$data[1]){
 				fclose($h)
-				return array('cate'=>$cate)+toPageData($data);
+				return array('cate'=>$cate, 'next'=>toPageData($nextData))+toPageData($data);
 			}
+			$nextData=$data;
 		}
 		fclose($h)
 	}
@@ -103,11 +96,15 @@ function findPageData($pid, $list="page_list.csv"){
 }
 
 function toPageData($raw){
-	return array(
-		'pn'=>$raw[0],
-		'name'=>$raw[1],
-		'mtime'=>$raw[2],
-	)
+	if(count($raw)<3){
+		return false;
+	}else{
+		return array(
+			'pn'=>$raw[0],
+			'name'=>$raw[1],
+			'mtime'=>$raw[2],
+		)
+	}
 }
 
 ?>

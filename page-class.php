@@ -2,23 +2,36 @@
 
 class Page{
 	public $number=0;
-	public $mdname="";
+	public $name="";
 	public $category="none";
 	public $dir="";
 
-	private $path="";
+	private $path="pages";
 
 	public $date="";
 	public $size=0;
 	public $title="";
 	public $cp=-1;
 
-	function __construct($pn, $n, $c, $d="pages"){
-		$this->number=$pn;
-		$this->mdname=$n;
-		$this->category=$c;
-		$this->dir="$p/"
-		$this->path=$this->dir.$this->category.$this->mdname.".md";
+	public $hasPrevPage=false;
+	public $hasNextPage=false;
+	public $nextPageData=array();
+
+	function __construct($d){
+		$this->number=$d['pn'];
+		$this->name=$d['name'];
+		$this->category=$d['category'];
+		if(isset($d['path'])){
+			$this->dir="{$d['path']}/";
+		}
+		$this->path=$this->dir.$this->category.$this->name.".md";
+		$this->hasPrevPage=$this->number>0?true:false;
+		if(!$d['next']){
+			$this->hasNextPage=false;
+		}else{
+			$this->hasNextPage=true;
+			$this->nextPageData=$d['next'];
+		}
 
 		// stat file
 		$stat=stat($this->path);

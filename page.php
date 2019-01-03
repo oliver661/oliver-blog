@@ -11,7 +11,7 @@ if(!$data){
     exit();
 }
 
-$page=new Page($data['pn'], $data['name'], $data['cate']);
+$page=new Page($data);
 
 getHTMLBeginer($page->title);
 getContent($page);
