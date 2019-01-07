@@ -5,9 +5,10 @@ include "./page-utils.php";
 include "./page-list-utils.php";    
 
 $pid=$_GET["p"];
+
 $data=findPageData($pid);
 if(!$data){
-    echo "Failed to find page file.";
+    echo "Failed to find page file for pid=$pid.";
     exit();
 }
 

@@ -27,7 +27,7 @@ function getContentPage($page){
 
 	$mdParser=new Parser;
 
-	getHeader($page));
+	getHeader($page);
 
 	echo "<div id=\"content\"><hr class=\"hr0\"/>";
 	echo $mdParser->makeHtml($page::getContent());
@@ -60,22 +60,22 @@ function getFooter(){
 	$info=stat(__FILE__);
 	$date=date('Y-m-d H:i:s (e/O)', $info['mtime']);
 	echo "
-    <div id="footer">
+    <div id=\"footer\">
     	<!--
-    	<div id="button-prev" class="header-button">
+    	<div id=\"button-prev\" class=\"header-button\">
         	&lt;&lt; 上一篇
         </div>
     	-->
-        <div class="header-button"
-        onclick="window.open('./','_top')">—— 海龟的漂浮岛 ——</div>
-        <div class="header-button"
-        onclick="window.open('directory.php','_self')">—— 回到目录 ——</div>
+        <div class=\"header-button\"
+        onclick=\"window.open('./','_top')\">—— 海龟的漂浮岛 ——</div>
+        <div class=\"header-button\"
+        onclick=\"window.open('directory.php','_self')\">—— 回到目录 ——</div>
         <!--
-        <div id="button-next" class="header-button">
+        <div id=\"button-next\" class=\"header-button\">
         	下一篇 &gt;&gt;
         </div>
         -->
-        <div id="footer-info" class="info">
+        <div id=\"footer-info\" class=\"info\">
         Page Function Last Update: $date
         </div>
     </div>";

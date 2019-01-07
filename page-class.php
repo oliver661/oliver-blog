@@ -41,7 +41,7 @@ class Page{
 		$this->date=date('Y-m-d H:i:s (e/O)', stat['mtime']);
 		$this->size=stat['size'];
 
-		// open and read
+		// open, read and find content position
 		if(($h=fopen($this->path, 'r'))!==false){
 			while(($data=fgets($h))!==false){
 				$this->title=$data;
