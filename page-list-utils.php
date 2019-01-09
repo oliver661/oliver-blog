@@ -7,10 +7,12 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 		(!file_exists($list))
 	){
 		$cateList=array();
+		$mdList=array();
 		$pn=0;
 		try{
 			$updateTime=time();
 			if(!rename($list, "$list.$updateTime.bak")){
+				throw new Exception("Failed to rename to backup file.");
 			}
 			$dirList=scandir($dir);
 			// Except . and ..
@@ -35,12 +37,20 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 					if(($mdfile==".")||($mdfile=="..")){
 						continue;
 					}
+					$fn="$dir/{$dirList[$i]}/$mdfile";
 					if(file_exists($mdfile)){
-						$stat=stat("$dir/{$dirList[$i]}/$mdfile");
+						$stat=stat($fn);
 						if(!$stat){
-							throw new Exception("Failed to stat markdown file: $dir/{$dirList[$i]}/$mdfile");
+							throw new Exception("Failed to stat markdown file: $fn");
 						}
-						$map[$mdfile]=$stat['mtime'];
+						if(($fp=fopen($fn, 'r'))!==false){
+							$mdList[$mdfile]=array(
+								'title'=>rtrim(fgets($fp)),
+							);
+							$map[$mdfile]=$stat['mtime'];
+						}else{
+							throw new Exception("Failed to open markdown file: $fn");
+						}
 					}
 				}
 				arsort($map);
@@ -60,8 +70,8 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 					if($pn<0){
 						throw new Exception("Invalid page count");
 					}
-					// pn name mtime
-					fputs($fp, "$pn,$name,$mtime\n");
+					// pn,name,mtime,title,
+					fputs($fp, "$pn,$name,$mtime,{$mdList[$name]['title']}\n");
 					$pn--;
 				}
 			}

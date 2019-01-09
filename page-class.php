@@ -25,7 +25,7 @@ class Page{
 			$this->dir="{$d['path']}/";
 		}
 		$this->path=$this->dir.$this->category.$this->name.".md";
-		$this->hasPrevPage=$this->number>0?true:false;
+		$this->hasPrevPage=$this->number>0;
 		if(!$d['next']){
 			$this->hasNextPage=false;
 		}else{
