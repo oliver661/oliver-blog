@@ -1,5 +1,7 @@
 <?php
 
+include_once 'configure.php';
+
 function updatePageList($list="page_list.csv", $dir="pages"){
 	if(
 		(file_exist($list)&&(time()-filemtime($list)>86400))
@@ -9,6 +11,7 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 		$cateList=array();
 		$mdList=array();
 		$pn=0;
+		$config=new Config();
 		try{
 			$updateTime=time();
 			if(!rename($list, "$list.$updateTime.bak")){
@@ -44,9 +47,17 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 							throw new Exception("Failed to stat markdown file: $fn");
 						}
 						if(($fp=fopen($fn, 'r'))!==false){
+							// title
 							$mdList[$mdfile]=array(
 								'title'=>rtrim(fgets($fp)),
 							);
+							// preview
+							$pmd='';
+							for($pl=0;$pl<$config->nPreviewLine;$pl++){
+								$pmd.=fgets($fp);
+							}
+							$mdList[$mdfile]['preview']=$pmd;
+							// mtime
 							$map[$mdfile]=$stat['mtime'];
 						}else{
 							throw new Exception("Failed to open markdown file: $fn");
@@ -70,8 +81,8 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 					if($pn<0){
 						throw new Exception("Invalid page count");
 					}
-					// pn,name,mtime,title,
-					fputs($fp, "$pn,$name,$mtime,{$mdList[$name]['title']}\n");
+					// pn,name,mtime,title,preview
+					fputs($fp, "$pn,$name,$mtime,{$mdList[$name]['title']},{$mdList[$name]['preview']}\n");
 					$pn--;
 				}
 			}
@@ -84,25 +95,64 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 
 function findPageData($pid, $list="page_list.csv"){
 
+	$rslt=false;
 	if(($h=fopen($list, 'r'))!==false){
 		$cate='';
 		$nextData=array();
 		while(($data=fgetcsv($h))!==false){
+
 			if(count($data)==1){
 				$cate=$data[0];
 				continue;	// not record into last data
-			}elseif(is_numeric($pid)&&($pid>=$data[0])){
-				fclose($h);
-				return array('cate'=>$cate, 'next'=>toPageData($nextData))+toPageData($data);
-			}elseif($pid==$data[1]){
-				fclose($h);
-				return array('cate'=>$cate, 'next'=>toPageData($nextData))+toPageData($data);
+			}elseif(
+				(is_numeric($pid)&&($pid>=$data[0]))
+				||
+				($pid==$data[1])
+			){
+				$rslt=array(
+					'cate'=>$cate, 
+					'next'=>toPageData($nextData)
+				)+toPageData($data);
+			}elseif($rslt!==false){
+				$rslt+=array(
+					'prev'=>toPageData($data)
+				);
+				break;	// only take one page for prev
 			}
 			$nextData=$data;
 		}
 		fclose($h);
 	}
-	return false;
+	return $rslt;
+}
+
+function findCateData($cate, $list="page_list.csv"){
+
+	$rslt=array();
+	if(($h=fopen($list, 'r'))!==false){
+		$isInCate=false;
+		while(($data=fgetcsv($h))!==false){
+
+			if(count($data)==1){
+				if(
+					($data[0]==$cate)
+					||
+					($cate=='all')
+				){
+					$isInCate=true;
+				}else{
+					$isInCate=false;
+				}
+				$ccate=$data[0];
+			}elseif($isInCate){
+				$rslt[]=array(
+					'cate'=>$ccate
+				)+toPageData($data);
+			}
+		}
+		fclose($h);
+	}
+	return $rslt;
 }
 
 function toPageData($raw){
@@ -113,6 +163,8 @@ function toPageData($raw){
 			'pn'=>$raw[0],
 			'name'=>$raw[1],
 			'mtime'=>$raw[2],
+			'title'=>$raw[3],
+			'preview'=>$raw[4],
 		);
 	}
 }

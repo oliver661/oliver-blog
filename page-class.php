@@ -15,6 +15,7 @@ class Page{
 
 	public $hasPrevPage=false;
 	public $hasNextPage=false;
+	public $prevPageData=array();
 	public $nextPageData=array();
 
 	function __construct($d){
@@ -25,7 +26,10 @@ class Page{
 			$this->dir="{$d['path']}/";
 		}
 		$this->path=$this->dir.$this->category.$this->name.".md";
-		$this->hasPrevPage=$this->number>0;
+		if(($this->number>0)&&isset($d['prev'])){
+			$this->hasPrevPage=true;
+			$this->prevPageData=$d['prev'];
+		}
 		if(!$d['next']){
 			$this->hasNextPage=false;
 		}else{

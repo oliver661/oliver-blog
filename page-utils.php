@@ -1,6 +1,9 @@
 <?php
 
 include "./libs/Parser.php";
+include_once 'configure.php';
+
+$config=new Config();
 
 function getHTMLBeginer($title="Toppage", $css="page.css"){
 	echo '
@@ -23,6 +26,32 @@ function getHTMLFinaller(){
 </html>";
 }
 
+function getDirectoryPage($cate='all'){
+	
+	// Check cate name
+	if($cate!='all'){
+		$cate=array_search($cate, $config->cNameCate);
+		if(!$cate){
+			throw new Exception("Category not found.", 404);
+		}
+	}
+	$pageDatas=findCateData($cate);
+	foreach($pageDatas as $page){
+		echo '
+		<div
+			class="blog-cell" 
+			onclick="window.open(\'page.php?p='.$page->pn.'\',\'mainFrame\')"
+		>
+			<div class="title-container">
+				<div class="title">'.$page->title.'</div>
+				<div class="info">'.$page->cate.' '.$page->mtime.'</div>
+			</div>
+			<div class="title-line">'.$page->preview.'<br /></div>
+		</div>
+		<hr class="hr0" />';
+	}
+}
+
 function getContentPage($page){
 
 	$mdParser=new Parser;
@@ -33,13 +62,17 @@ function getContentPage($page){
 	echo $mdParser->makeHtml($page::getContent());
 	echo "<hr class=\"hr0\" /></div>";
 
-	getFooter();
+	getFooter($page);
 }
 
 function getHeader($page){
 
 	$icon="imgs/".$page->category.".jpg";
-
+	if(isset($config->cNameCate[$page->category])){
+		$cate=$config->cNameCate[$page->category];
+	}else{
+		$cate=$page->category;
+	}
 	echo '
 	<div id="header">
     	<div id="icon-container">
@@ -48,7 +81,7 @@ function getHeader($page){
         <div id="title-container">
 			<div id="title">'.$page->title.'</div>
   			<div id="header-info" class="info">
-				'.$page->category.' '.$page->mtime.'
+				'.$cate.' '.$page->mtime.'
                 <a href="./page.php?p='.$page->name.'" target="_blank" > [本文地址] </a>
                 <a href="./directory.php" target="_self" > [回到目录] </a>
             </div>
@@ -56,25 +89,50 @@ function getHeader($page){
     </div>';
 }
 
-function getFooter($hasButton=true, $hasInfo=true){
+function getFooter($page=null, $hasButton=true, $hasInfo=true){
 
 	echo '
 	<div id="footer">';
 
 	if($hasButton){
+		if($page!==null){
+			echo '
+			<div 
+				id="button-next" ';
+			if($page->hasNextPage){
+				echo 'onclick="window.open(\'page.php?p='.$page->nextPageData['pn'].'\',\'_self\')
+				class="header-button"
+				>&lt;&lt;'.$page->nextPageData['title'];
+			}else{
+				echo 'class="header-button"
+				>没有再新的文章了';
+			}
+			echo '
+			</div>';
+		}
 		echo '
-		<!--
-		<div id="button-prev" class="header-button">&lt;&lt; 上一篇</div>
-		-->
 		<div class="header-button" onclick="window.open(\'./\',\'_top\')">
 			—— 海龟的漂浮岛 ——
 		</div>
 		<div class="header-button" onclick="window.open(\'directory.php\',\'_self\')">
 			—— 回到目录 ——
-		</div>
-		<!--
-		<div id="button-next" class="header-button">下一篇 &gt;&gt;</div>
-		-->';
+		</div>';
+		
+		if($page!==null){
+			echo '
+			<div 
+				id="button-prev" ';
+			if($page->hasPrevPage){
+				echo 'onclick="window.open(\'page.php?p='.$page->prevPageData['pn'].'\',\'_self\')
+				class="header-button"
+				>'.$page->prevPageData['title'].'&gt;&gt;';
+			}else{
+				echo 'class="header-button"
+				>没有再旧的文章了';
+			}
+			echo '
+			</div>';
+		};
 	}
 	if($hasInfo){
 
@@ -89,4 +147,8 @@ function getFooter($hasButton=true, $hasInfo=true){
 
 	echo '
 	</div>';
+}
+
+function getDirePage($cate='all'){
+
 }
