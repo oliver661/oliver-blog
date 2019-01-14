@@ -27,7 +27,7 @@ function getHTMLFinaller(){
 
 function getDirectoryPage($cate='all'){
 	
-	$mdParser=new Parser;
+	$mdParser=new HyperDown\Parser;
 	
 	// Check cate name
 	if($cate!='all'){
@@ -45,7 +45,7 @@ function getDirectoryPage($cate='all'){
 >
 	<div class="title-container">
 		<div class="title">'.$page['title'].'</div>
-		<div class="info">'.$page['cate'].' '.$page['mtime'].'</div>
+		<div class="info">'.$page['cate'].' '.date('Y-m-d H:i:s (e/O)', $page['mtime']).'</div>
 	</div>
 	<div class="title-line">';
 		echo $mdParser->makeHtml(urldecode($page['preview']));
