@@ -15,7 +15,7 @@ $config=new Config();
 getHTMLBeginer("Directory", "directory.css");
 
 if($cate=='all'){
-	echo '—— 全部文章——';
+	echo '—— 全部文章 ——';
 }elseif(isset($config->nNameCate[$cate])){
 	echo '—— '.$config->nNameCate[$cate].' ——';
 }

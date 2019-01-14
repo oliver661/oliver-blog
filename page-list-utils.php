@@ -1,10 +1,10 @@
 <?php
 
-include_once 'configure.php';
+include_once './configure.php';
 
-function updatePageList($list="page_list.csv", $dir="pages"){
+function updatePageList($list="page_list.csv", $dir="./pages"){
 	if(
-		(file_exist($list)&&(time()-filemtime($list)>86400))
+		(file_exists($list)&&(time()-filemtime($list)>86400))
 		||
 		(!file_exists($list))
 	){
@@ -14,47 +14,58 @@ function updatePageList($list="page_list.csv", $dir="pages"){
 		$config=new Config();
 		try{
 			$updateTime=time();
-			if(!rename($list, "$list.$updateTime.bak")){
-				throw new Exception("Failed to rename to backup file.");
+			if(file_exists($list)){
+				if(!rename($list, "./$list.$updateTime.bak")){
+					throw new Exception("Failed to rename to backup file.");
+				}
 			}
 			$dirList=scandir($dir);
 			// Except . and ..
 			if(count($dirList)<3){
 				echo "Empty pages dir. Abort updating.";
-				if(rename("$list.$updateTime.bak", $list)){
-					throw new Exception("Success restore list file.");
-				}else{
-					throw new Exception("Failed to restore list file.");
+				if(file_exists("$list.$updateTime.bak")){
+					if(rename("$list.$updateTime.bak", $list)){
+						throw new Exception("Success restore list file.");
+					}else{
+						throw new Exception("Failed to restore list file.");
+					}
 				}
 			}
 
 			for($i=2;$i<count($dirList);$i++){
+
+				// Except any file name by . beginning
+				if($dirList[$i][0]=='.'){
+					continue;
+				}
 				// Scan dir in category
 				$mds=scandir("$dir/{$dirList[$i]}");
 				if(count($mds)<3){
 					continue;
 				}
-				// Order Map
-				$map=array();
+				
+				// Read every markdown
+				
+				$map=array();	// order map of all markdown file
 				foreach($mds as $mdfile){
-					if(($mdfile==".")||($mdfile=="..")){
+
+					// Ignore any file begin with .
+					if($mdfile[0]=="."){
 						continue;
 					}
 					$fn="$dir/{$dirList[$i]}/$mdfile";
-					if(file_exists($mdfile)){
+					if(file_exists($fn)){
 						$stat=stat($fn);
 						if(!$stat){
 							throw new Exception("Failed to stat markdown file: $fn");
 						}
 						if(($fp=fopen($fn, 'r'))!==false){
 							// title
-							$mdList[$mdfile]=array(
-								'title'=>rtrim(fgets($fp)),
-							);
+							$mdList[$mdfile]['title']=trim(fgets($fp), "# \n\t\r\0");
 							// preview
 							$pmd='';
 							for($pl=0;$pl<$config->nPreviewLine;$pl++){
-								$pmd.=fgets($fp);
+								$pmd.=urlencode(fgets($fp));
 							}
 							$mdList[$mdfile]['preview']=$pmd;
 							// mtime
@@ -126,7 +137,7 @@ function findPageData($pid, $list="page_list.csv"){
 	return $rslt;
 }
 
-function findCateData($cate, $list="page_list.csv"){
+function findCateData($cate, $list="./page_list.csv"){
 
 	$rslt=array();
 	if(($h=fopen($list, 'r'))!==false){

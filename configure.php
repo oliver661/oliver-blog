@@ -1,21 +1,21 @@
 <?php
 
 class Config{
-	public $nPreviewLine=0;
+	public $nPreviewLine=3;
 	public $cNameCate=array();
 
-	private $configPath="config.csv";
+	private $configPath="./config.csv";
 
 	function __construct(){
-		if(!file_exists($configPath)){
+		if(!file_exists($this->configPath)){
 
 			// Uncomment following if prefer to take no configuration file
 			// throw new Exception("Configuration file not found.", 500);
 			return;
 		}
-		if(($fp=fopen($configPath))!==false){
+		if(($fp=fopen($this->configPath, 'r'))!==false){
 			$cmode='';
-			while(($cls=fgetcsv($fn))!==false){
+			while(($cls=fgetcsv($fp))!==false){
 				if((count($cls)<0)||($cls[0]=='#')){
 					$cmode='';
 					continue;

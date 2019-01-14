@@ -1,13 +1,12 @@
 <?php
 
 include "./libs/Parser.php";
-include_once 'configure.php';
+include_once './configure.php';
 
 $config=new Config();
 
 function getHTMLBeginer($title="Toppage", $css="page.css"){
-	echo '
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -28,6 +27,8 @@ function getHTMLFinaller(){
 
 function getDirectoryPage($cate='all'){
 	
+	$mdParser=new Parser;
+	
 	// Check cate name
 	if($cate!='all'){
 		$cate=array_search($cate, $config->cNameCate);
@@ -38,17 +39,19 @@ function getDirectoryPage($cate='all'){
 	$pageDatas=findCateData($cate);
 	foreach($pageDatas as $page){
 		echo '
-		<div
-			class="blog-cell" 
-			onclick="window.open(\'page.php?p='.$page->pn.'\',\'mainFrame\')"
-		>
-			<div class="title-container">
-				<div class="title">'.$page->title.'</div>
-				<div class="info">'.$page->cate.' '.$page->mtime.'</div>
-			</div>
-			<div class="title-line">'.$page->preview.'<br /></div>
-		</div>
-		<hr class="hr0" />';
+<div
+	class="blog-cell" 
+	onclick="window.open(\'page.php?p='.$page['pn'].'\',\'mainFrame\')"
+>
+	<div class="title-container">
+		<div class="title">'.$page['title'].'</div>
+		<div class="info">'.$page['cate'].' '.$page['mtime'].'</div>
+	</div>
+	<div class="title-line">';
+		echo $mdParser->makeHtml(urldecode($page['preview']));
+		echo '<br /></div>
+</div>
+<hr class="hr0" />';
 	}
 }
 
@@ -147,8 +150,4 @@ function getFooter($page=null, $hasButton=true, $hasInfo=true){
 
 	echo '
 	</div>';
-}
-
-function getDirePage($cate='all'){
-
 }
