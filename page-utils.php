@@ -79,19 +79,19 @@ function getHeader($page){
 		$cate=$page->category;
 	}
 	echo '
-	<div id="header">
-    	<div id="icon-container">
-			<div><img id="icon" src="imgs/'.$icon.'.jpg" /></div>
+<div id="header">
+	<div id="icon-container">
+		<img id="icon" src="'.$icon.'" />
+    </div>
+    <div id="title-container">
+		<div id="title">'.$page->title.'</div>
+			<div id="header-info" class="info">
+			'.$cate.' '.$page->date.'
+            <a href="./page.php?p='.$page->name.'" target="_blank" > [本文地址] </a>
+            <a href="./directory.php" target="_self" > [回到目录] </a>
         </div>
-        <div id="title-container">
-			<div id="title">'.$page->title.'</div>
-  			<div id="header-info" class="info">
-				'.$cate.' '.$page->date.'
-                <a href="./page.php?p='.$page->name.'" target="_blank" > [本文地址] </a>
-                <a href="./directory.php" target="_self" > [回到目录] </a>
-            </div>
-        </div>
-    </div>';
+    </div>
+</div>';
 }
 
 function getFooter($page=null, $hasButton=true, $hasInfo=true){
@@ -102,18 +102,20 @@ function getFooter($page=null, $hasButton=true, $hasInfo=true){
 	if($hasButton){
 		if($page!==null){
 			echo '
-			<div 
-				id="button-next" ';
+		<div 
+			id="button-next" ';
 			if($page->hasNextPage){
-				echo 'onclick="window.open(\'page.php?p='.$page->nextPageData['name'].'\',\'_self\')
-				class="header-button"
-				>&lt;&lt;'.$page->nextPageData['title'];
+				echo 'onclick="window.open(\'page.php?p='.$page->nextPageData['name'].'\',\'_self\') '
+					.'class="header-button"
+		>
+			&lt;&lt;'.$page->nextPageData['title'];
 			}else{
 				echo 'class="header-button"
-				>没有再新的文章了';
+		>
+			没有再新的文章了';
 			}
 			echo '
-			</div>';
+		</div>';
 		}
 		echo '
 		<div class="header-button" onclick="window.open(\'./\',\'_top\')">
@@ -125,18 +127,19 @@ function getFooter($page=null, $hasButton=true, $hasInfo=true){
 		
 		if($page!==null){
 			echo '
-			<div 
-				id="button-prev" ';
+		<div 
+			id="button-prev" ';
 			if($page->hasPrevPage){
-				echo 'onclick="window.open(\'page.php?p='.$page->prevPageData['name'].'\',\'_self\')
-				class="header-button"
-				>'.$page->prevPageData['title'].'&gt;&gt;';
+				echo 'onclick="window.open(\'page.php?p='.$page->prevPageData['name'].'\',\'_self\') '
+					.'class="header-button"
+		>'
+					.$page->prevPageData['title'].'&gt;&gt;';
 			}else{
 				echo 'class="header-button"
-				>没有再旧的文章了';
+		>没有再旧的文章了';
 			}
 			echo '
-			</div>';
+		</div>';
 		};
 	}
 	if($hasInfo){
