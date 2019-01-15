@@ -4,9 +4,9 @@ class Page{
 	public $number=0;
 	public $name="";
 	public $category="none";
-	public $dir="";
+	public $dir="pages/";
 
-	private $path="pages";
+	private $path="";
 
 	public $date="";
 	public $size=0;
@@ -21,11 +21,11 @@ class Page{
 	function __construct($d){
 		$this->number=$d['pn'];
 		$this->name=$d['name'];
-		$this->category=$d['category'];
+		$this->category=$d['cate'];
 		if(isset($d['path'])){
 			$this->dir="{$d['path']}/";
 		}
-		$this->path=$this->dir.$this->category.$this->name.".md";
+		$this->path=$this->dir.$this->category.'/'.$this->name.'.md';
 		if(($this->number>0)&&isset($d['prev'])){
 			$this->hasPrevPage=true;
 			$this->prevPageData=$d['prev'];
@@ -42,8 +42,8 @@ class Page{
 		if(!$stat){
 			throw new Exception("Failed to stat page file.", 500);
 		}
-		$this->date=date('Y-m-d H:i:s (e/O)', stat['mtime']);
-		$this->size=stat['size'];
+		$this->date=date('Y-m-d H:i:s (e/O)', $stat['mtime']);
+		$this->size=$stat['size'];
 
 		// open, read and find content position
 		if(($h=fopen($this->path, 'r'))!==false){

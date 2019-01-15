@@ -15,7 +15,7 @@ if(!$data){
 $page=new Page($data);
 
 getHTMLBeginer($page->title);
-getContent($page);
+getPageContent($page);
 getHTMLFinaller();
 
 ?>

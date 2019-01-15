@@ -3,8 +3,6 @@
 include "./libs/Parser.php";
 include_once './configure.php';
 
-$config=new Config();
-
 function getHTMLBeginer($title="Toppage", $css="page.css"){
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,6 +24,8 @@ function getHTMLFinaller(){
 }
 
 function getDirectoryPage($cate='all'){
+
+	$config=new Config();
 	
 	$mdParser=new HyperDown\Parser;
 	
@@ -55,20 +55,22 @@ function getDirectoryPage($cate='all'){
 	}
 }
 
-function getContentPage($page){
+function getPageContent($page){
 
-	$mdParser=new Parser;
+	$mdParser=new HyperDown\Parser;
 
 	getHeader($page);
 
 	echo "<div id=\"content\"><hr class=\"hr0\"/>";
-	echo $mdParser->makeHtml($page::getContent());
+	echo $mdParser->makeHtml($page->getContent());
 	echo "<hr class=\"hr0\" /></div>";
 
 	getFooter($page);
 }
 
 function getHeader($page){
+
+	$config=new Config();
 
 	$icon="imgs/".$page->category.".jpg";
 	if(isset($config->cNameCate[$page->category])){
@@ -84,7 +86,7 @@ function getHeader($page){
         <div id="title-container">
 			<div id="title">'.$page->title.'</div>
   			<div id="header-info" class="info">
-				'.$cate.' '.$page->mtime.'
+				'.$cate.' '.$page->date.'
                 <a href="./page.php?p='.$page->name.'" target="_blank" > [本文地址] </a>
                 <a href="./directory.php" target="_self" > [回到目录] </a>
             </div>
