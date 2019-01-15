@@ -58,25 +58,26 @@ function updatePageList($list="page_list.csv", $dir="./pages"){
 					if(!isset($pi['extension'])||($pi['extension']!='md')){
 						continue;
 					}
-					$fn="$dir/{$dirList[$i]}/$mdfile";
-					if(file_exists($fn)){
-						$stat=stat($fn);
+					$path="$dir/{$dirList[$i]}/$mdfile";
+					$fn=$pi['filename'];
+					if(file_exists($path)){
+						$stat=stat($path);
 						if(!$stat){
-							throw new Exception("Failed to stat markdown file: $fn");
+							throw new Exception("Failed to stat markdown file: $path");
 						}
-						if(($fp=fopen($fn, 'r'))!==false){
+						if(($fp=fopen($path, 'r'))!==false){
 							// title
-							$mdList[$mdfile]['title']=trim(fgets($fp), "# \n\t\r\0");
+							$mdList[$fn]['title']=trim(fgets($fp), "# \n\t\r\0");
 							// preview
 							$pmd='';
 							for($pl=0;$pl<$config->nPreviewLine;$pl++){
 								$pmd.=urlencode(fgets($fp));
 							}
-							$mdList[$mdfile]['preview']=$pmd;
+							$mdList[$fn]['preview']=$pmd;
 							// mtime
-							$map[$mdfile]=$stat['mtime'];
+							$map[$fn]=$stat['mtime'];
 						}else{
-							throw new Exception("Failed to open markdown file: $fn");
+							throw new Exception("Failed to open markdown file: $path");
 						}
 					}
 				}
