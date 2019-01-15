@@ -53,6 +53,11 @@ function updatePageList($list="page_list.csv", $dir="./pages"){
 					if($mdfile[0]=="."){
 						continue;
 					}
+					// Ignore no-markdown file
+					$pi=pathinfo($mdfile);
+					if(!isset($pi['extension'])||($pi['extension']!='md')){
+						continue;
+					}
 					$fn="$dir/{$dirList[$i]}/$mdfile";
 					if(file_exists($fn)){
 						$stat=stat($fn);
