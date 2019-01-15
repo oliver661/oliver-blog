@@ -41,7 +41,7 @@ function getDirectoryPage($cate='all'){
 		echo '
 <div
 	class="blog-cell" 
-	onclick="window.open(\'page.php?p='.$page['pn'].'\',\'mainFrame\')"
+	onclick="window.open(\'page.php?p='.$page['name'].'\',\'mainFrame\')"
 >
 	<div class="title-container">
 		<div class="title">'.$page['title'].'</div>
@@ -103,7 +103,7 @@ function getFooter($page=null, $hasButton=true, $hasInfo=true){
 			<div 
 				id="button-next" ';
 			if($page->hasNextPage){
-				echo 'onclick="window.open(\'page.php?p='.$page->nextPageData['pn'].'\',\'_self\')
+				echo 'onclick="window.open(\'page.php?p='.$page->nextPageData['name'].'\',\'_self\')
 				class="header-button"
 				>&lt;&lt;'.$page->nextPageData['title'];
 			}else{
@@ -126,7 +126,7 @@ function getFooter($page=null, $hasButton=true, $hasInfo=true){
 			<div 
 				id="button-prev" ';
 			if($page->hasPrevPage){
-				echo 'onclick="window.open(\'page.php?p='.$page->prevPageData['pn'].'\',\'_self\')
+				echo 'onclick="window.open(\'page.php?p='.$page->prevPageData['name'].'\',\'_self\')
 				class="header-button"
 				>'.$page->prevPageData['title'].'&gt;&gt;';
 			}else{
