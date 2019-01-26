@@ -48,7 +48,7 @@ class Page{
 		// open, read and find content position
 		if(($h=fopen($this->path, 'r'))!==false){
 			while(($data=fgets($h))!==false){
-				$this->title=$data;
+				$this->title=trim($data, "# \n\t\r\0");
 				$this->cp=ftell($h);
 				break;
 			}
