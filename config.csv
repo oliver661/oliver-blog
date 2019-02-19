@@ -1,0 +1,13 @@
+# ========================
+# Configuration File
+#
+# Please save it in UTF-8.
+# ========================
+
+# Number of Preview Line
+n_preview_line 3
+
+# Custom Name of Category
+custom_name_category
+old 旧时光
+daily 日常
